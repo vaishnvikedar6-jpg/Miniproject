@@ -3,42 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anti-Bullying Cell | SGMS</title>
+    <title>Safe Campus | SGMS Anti-Harassment</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --dept-color: #dc2626; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: linear-gradient(135deg, #7f1d1d, #ef4444); color: white; min-height: 100vh; padding: 30px; }
-        .header-box { background: rgba(0,0,0,0.4); padding: 30px; border-radius: 25px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; border: 2px solid #f87171; }
-        .head-info h2 { margin: 0; color: #fee2e2; }
-        .column { background: rgba(0, 0, 0, 0.4); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .card { background: #fff1f2; color: #991b1b; padding: 18px; border-radius: 15px; margin-bottom: 15px; border-left: 6px solid #b91c1c; }
-        .report-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .btn-back { color: white; text-decoration: none; font-weight: 700; background: #000; padding: 10px 20px; border-radius: 10px; }
+        :root {
+            --emergency: #b91c1c;
+            --warning: #f59e0b;
+            --safe: #059669;
+            --glass: rgba(0, 0, 0, 0.6);
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            margin: 0; 
+            background: radial-gradient(circle at top, #7f1d1d, #450a0a);
+            color: #fee2e2;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .header {
+            background: var(--glass);
+            padding: 30px;
+            border-radius: 30px;
+            border: 2px solid #ef4444;
+            margin-bottom: 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(15px);
+        }
+
+        /* Severity Badges */
+        .level-high { background: #fee2e2; color: #b91c1c; border: 1px solid #b91c1c; }
+        .level-med { background: #fef3c7; color: #92400e; border: 1px solid #d97706; }
+
+        .case-card {
+            background: #ffffff;
+            color: #1e293b;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border-left: 10px solid var(--emergency);
+        }
+
+        /* Identity Protection Style */
+        .anonymous-box {
+            background: #f1f5f9;
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: inline-block;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 10px;
+        }
+
+        .action-log {
+            margin-top: 15px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            border-top: 2px dashed #cbd5e1;
+        }
+
+        .btn-update {
+            background: #7f1d1d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .btn-update:hover { background: #b91c1c; }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            float: right;
+        }
     </style>
 </head>
 <body>
-    <div class="header-box">
-        <div class="head-info">
-            <p>🚨 ANTI-HARASSMENT CELL (CONFIDENTIAL)</p>
-            <h2>Head: Dr. Anjali Rao (Counselor)</h2>
-            <span>Emergency No: 1800-XXX-XXXX</span>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <h1 style="margin:0;">🛡️ Internal Committee (IC) Portal</h1>
+            <p style="margin:5px 0 0;">Zero Tolerance for Stalking, Starring & Harassment</p>
         </div>
-        <a href="admindashboard.html" class="btn-back">← Back</a>
+        <div style="text-align: right;">
+            <div id="urgentAlert" style="color: #fca5a5; font-weight: 800; display: none;">🚨 CRITICAL CASES DETECTED</div>
+            <a href="admindashboard.html" style="color: white; text-decoration: none; font-size: 14px; font-weight: 700;">Back to Dashboard</a>
+        </div>
     </div>
-    <div class="report-container">
-        <div class="column"><h3>🚩 Critical Reports</h3><div id="pendingList"></div></div>
-        <div class="column"><h3>🛡️ Cases Closed</h3><div id="solvedList"></div></div>
-    </div>
-    <script>
-        function loadData() {
-            const list = JSON.parse(localStorage.getItem('grievances')) || [];
-            const deptIssues = list.filter(i => i.category.includes('URGENT'));
-            deptIssues.forEach(item => {
-                const html = `<div class="card"><h4>${item.name}</h4><p><b>Issue:</b> ${item.text}</p><small>Strict Action Required</small></div>`;
-                item.status === 'Resolved' ? document.getElementById('solvedList').innerHTML += html : document.getElementById('pendingList').innerHTML += html;
-            });
-        }
-        loadData();
-    </script>
+
+    <div id="caseContainer">
+        </div>
+</div>
+
+<script>
+    function loadSafetyData() {
+        const list = JSON.parse(localStorage.getItem('grievances')) || [];
+        const cases = list.filter(i => i.category.includes('URGENT'));
+        const container = document.getElementById('caseContainer');
+        container.innerHTML = "";
+
+        if(cases.length > 0) document.getElementById('urgentAlert').style.display = 'block';
+
+        cases.forEach((item, index) => {
+            // Logic to check severity
+            const text = item.text.toLowerCase();
+            let severity = "Medium";
+            let type = "General Harassment";
+
+            if(text.includes('stalk') || text.includes('follow') || text.includes('home') || text.includes('pathlag')) {
+                severity = "High";
+                type = "Physical Stalking / Pathlag";
+            } else if(text.includes('star') || text.includes('look') || text.includes('comfort')) {
+                type = "Non-Verbal (Starring)";
+            }
+
+            const card = `
+                <div class="case-card">
+                    <span class="status-badge ${item.status === 'Resolved' ? 'level-med' : 'level-high'}">${item.status}</span>
+                    <div class="anonymous-box">👤 Case ID: #${Math.floor(Math.random() * 10000)}</div>
+                    
+                    <h3 style="margin:0 0 10px 0;">Nature of Issue: <span style="color:var(--emergency)">${type}</span></h3>
+                    <p style="font-size: 16px; color: #334155;"><strong>Detailed Statement:</strong> "${item.text}"</p>
+                    
+                    <div style="margin: 15px 0; font-size: 14px;">
+                        <strong>Reported by:</strong> ${item.name} | <strong>PRN:</strong> ${item.prn} <br>
+                        <strong>Timestamp:</strong> ${item.date}
+                    </div>
+
+                    <div class="action-log">
+                        <strong style="color: #1e293b;">Internal Committee Action Taken:</strong>
+                        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+                            <button class="btn-update" onclick="logAction('CCTV Footage Verified')">Verify CCTV</button>
+                            <button class="btn-update" onclick="logAction('Intervened Non-Verbally')">Non-Verbal Warning</button>
+                            <button class="btn-update" onclick="logAction('Summoned to IC Office')">Summon Accused</button>
+                            <button class="btn-update" onclick="logAction('Police Informed')">Police Intimation</button>
+                            <button class="btn-update" style="background:#059669;" onclick="markResolved(${index})">Resolve & Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += card;
+        });
+    }
+
+    function logAction(action) {
+        alert("Action Logged: " + action + ". The Internal Committee has been notified.");
+    }
+
+    function markResolved(idx) {
+        let list = JSON.parse(localStorage.getItem('grievances'));
+        list[idx].status = 'Resolved';
+        localStorage.setItem('grievances', JSON.stringify(list));
+        loadSafetyData();
+    }
+
+    loadSafetyData();
+</script>
+
 </body>
 </html>
