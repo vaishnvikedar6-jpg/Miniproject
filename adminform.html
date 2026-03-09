@@ -19,7 +19,6 @@
             justify-content: center; 
             align-items: center; 
             min-height: 100vh;
-            /* Same gradient as the student page */
             background: linear-gradient(135deg, rgba(76, 29, 149, 0.8), rgba(219, 39, 119, 0.7));
             background-size: cover;
         }
@@ -135,6 +134,12 @@
             opacity: 0.6;
         }
         .back-link:hover { opacity: 1; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
     </style>
 </head>
 <body>
@@ -167,13 +172,13 @@
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
 
+            // Updated redirection to 'admindashboard.html'
             if (user === "admin" && pass === "1234") {
                 sessionStorage.setItem("adminAuthenticated", "true");
-                window.location.href = "admin.html"; // खात्री करा की तुमची फाईल 'admin.html' याच नावाने आहे.
+                window.location.href = "admindashboard.html"; 
             } else {
                 const errorBox = document.getElementById('errorMessage');
                 errorBox.style.display = "block";
-                // Shake effect for error
                 errorBox.style.animation = "shake 0.4s ease";
             }
         }
