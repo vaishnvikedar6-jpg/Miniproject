@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti-Bullying Cell | SGMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --dept-color: #dc2626; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: linear-gradient(135deg, #7f1d1d, #ef4444); color: white; min-height: 100vh; padding: 30px; }
+        .header-box { background: rgba(0,0,0,0.4); padding: 30px; border-radius: 25px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; border: 2px solid #f87171; }
+        .head-info h2 { margin: 0; color: #fee2e2; }
+        .column { background: rgba(0, 0, 0, 0.4); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .card { background: #fff1f2; color: #991b1b; padding: 18px; border-radius: 15px; margin-bottom: 15px; border-left: 6px solid #b91c1c; }
+        .report-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .btn-back { color: white; text-decoration: none; font-weight: 700; background: #000; padding: 10px 20px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header-box">
+        <div class="head-info">
+            <p>🚨 ANTI-HARASSMENT CELL (CONFIDENTIAL)</p>
+            <h2>Head: Dr. Anjali Rao (Counselor)</h2>
+            <span>Emergency No: 1800-XXX-XXXX</span>
+        </div>
+        <a href="admindashboard.html" class="btn-back">← Back</a>
+    </div>
+    <div class="report-container">
+        <div class="column"><h3>🚩 Critical Reports</h3><div id="pendingList"></div></div>
+        <div class="column"><h3>🛡️ Cases Closed</h3><div id="solvedList"></div></div>
+    </div>
+    <script>
+        function loadData() {
+            const list = JSON.parse(localStorage.getItem('grievances')) || [];
+            const deptIssues = list.filter(i => i.category.includes('URGENT'));
+            deptIssues.forEach(item => {
+                const html = `<div class="card"><h4>${item.name}</h4><p><b>Issue:</b> ${item.text}</p><small>Strict Action Required</small></div>`;
+                item.status === 'Resolved' ? document.getElementById('solvedList').innerHTML += html : document.getElementById('pendingList').innerHTML += html;
+            });
+        }
+        loadData();
+    </script>
+</body>
+</html>
