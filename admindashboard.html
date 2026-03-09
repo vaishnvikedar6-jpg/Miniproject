@@ -9,156 +9,168 @@
         :root {
             --primary: #4c1d95;
             --accent: #db2777;
-            --bg: #f1f5f9;
+            --bg: #f8fafc;
+            --danger: #be123c;
+            --success: #15803d;
         }
 
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            margin: 0; background: var(--bg); 
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: var(--bg); color: #1e293b; }
 
-        /* Sidebar & Header Setup */
         header {
-            background: white; padding: 20px 40px;
+            background: white; padding: 15px 40px;
             display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 100;
         }
 
-        .logo { font-size: 20px; font-weight: 800; color: var(--primary); }
-
-        .search-bar {
-            padding: 10px 20px; border-radius: 12px;
-            border: 1px solid #ddd; width: 300px; outline: none;
+        .stats-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; padding: 30px 40px;
         }
 
-        .container { padding: 40px; max-width: 1200px; margin: auto; }
-
-        h2 { margin-bottom: 25px; color: #1e293b; }
-
-        /* Table Styling */
-        .table-wrapper {
-            background: white; border-radius: 20px;
-            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        .stat-card {
+            background: white; padding: 20px; border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary);
         }
 
-        table { width: 100%; border-collapse: collapse; text-align: left; }
+        .stat-card.urgent { border-left-color: var(--danger); }
 
-        th { background: #f8fafc; padding: 18px; font-size: 14px; color: #64748b; }
-
-        td { padding: 18px; border-bottom: 1px solid #f1f5f9; font-size: 15px; }
-
-        .tag {
-            padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 700;
+        .tabs {
+            display: flex; gap: 10px; padding: 0 40px; margin-bottom: 20px;
+            overflow-x: auto;
         }
 
-        .urgent { background: #fee2e2; color: #ef4444; }
-        .normal { background: #f0fdf4; color: #22c55e; }
-
-        .btn-resolve {
-            background: #f1f5f9; border: none; padding: 8px 15px;
-            border-radius: 10px; cursor: pointer; color: var(--primary);
-            font-weight: 700; transition: 0.2s;
+        .tab-btn {
+            padding: 12px 25px; border-radius: 12px; border: none;
+            background: white; cursor: pointer; font-weight: 700;
+            color: #64748b; transition: 0.3s; white-space: nowrap;
         }
 
-        .btn-resolve:hover { background: var(--primary); color: white; }
+        .tab-btn.active { background: var(--primary); color: white; }
 
-        .logout-btn {
-            background: #fee2e2; color: #ef4444; padding: 10px 20px;
-            border-radius: 10px; text-decoration: none; font-weight: 700;
+        .container { padding: 0 40px 40px 40px; }
+
+        .data-card {
+            background: white; border-radius: 20px; padding: 25px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            margin-bottom: 15px; display: flex; justify-content: space-between;
+            align-items: center; border: 1px solid #e2e8f0;
+            animation: fadeIn 0.5s ease;
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .info h4 { margin: 0 0 5px 0; color: var(--primary); }
+        .info p { margin: 5px 0; font-size: 14px; color: #475569; }
+
+        .badge {
+            padding: 4px 10px; border-radius: 8px; font-size: 11px;
+            text-transform: uppercase; font-weight: 800;
+        }
+
+        .badge-urgent { background: #ffe4e6; color: var(--danger); }
+        .status-select {
+            padding: 8px; border-radius: 10px; border: 1px solid #cbd5e1;
+            font-size: 13px; font-weight: 600; outline: none;
+        }
+
+        .logout-btn { background: var(--danger); color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 700; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">SGMS Admin Portal</div>
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search by PRN..." onkeyup="filterTable()">
+        <div style="font-weight: 800; color: var(--primary); font-size: 20px;">SGMS Admin</div>
         <a href="#" onclick="logout()" class="logout-btn">Logout</a>
     </header>
 
-    <div class="container">
-        <h2>All Student Grievances</h2>
-
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Student Name</th>
-                        <th>PRN</th>
-                        <th>Category</th>
-                        <th>Issue Details</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="adminTableBody">
-                    </tbody>
-            </table>
+    <div class="stats-container">
+        <div class="stat-card">
+            <small>Total Received</small>
+            <h2 id="totalCount">0</h2>
+        </div>
+        <div class="stat-card urgent">
+            <small>Harassment/Bullying</small>
+            <h2 id="urgentCount">0</h2>
         </div>
     </div>
 
+    <div class="tabs">
+        <button class="tab-btn active" onclick="filterBy('All', this)">All Issues</button>
+        <button class="tab-btn" onclick="filterBy('Academic Help', this)">Academic</button>
+        <button class="tab-btn" onclick="filterBy('College Infrastructure', this)">Infrastructure</button>
+        <button class="tab-btn" onclick="filterBy('Cleanliness', this)">Cleanliness</button>
+        <button class="tab-btn" onclick="filterBy('🚨 URGENT', this)" style="color: var(--danger);">🚨 Bullying</button>
+    </div>
+
+    <div class="container" id="dataContainer">
+        </div>
+
     <script>
-        // Security check: Jar login kela nasel tar parat pathva
-        if (sessionStorage.getItem("adminAuthenticated") !== "true") {
-            window.location.href = "adminform.html"; 
-        }
+        if (sessionStorage.getItem("adminAuthenticated") !== "true") { window.location.href = "adminform.html"; }
 
-        function loadAllData() {
+        function loadDashboard(filter = 'All') {
             const list = JSON.parse(localStorage.getItem('grievances')) || [];
-            const tableBody = document.getElementById('adminTableBody');
+            const container = document.getElementById('dataContainer');
+            
+            // Stats calculation
+            document.getElementById('totalCount').innerText = list.length;
+            document.getElementById('urgentCount').innerText = list.filter(i => i.category.includes('URGENT')).length;
 
-            if (list.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 50px; color: #94a3b8;">No records found.</td></tr>`;
+            let filteredList = filter === 'All' ? list : list.filter(item => item.category === filter);
+
+            if (filteredList.length === 0) {
+                container.innerHTML = `<p style="text-align:center; padding: 50px; color: #94a3b8;">No records in this category.</p>`;
                 return;
             }
 
-            tableBody.innerHTML = list.map((item, index) => `
-                <tr>
-                    <td>${item.date}</td>
-                    <td><strong>${item.name}</strong></td>
-                    <td>${item.prn}</td>
-                    <td>
-                        <span class="tag ${item.category.includes('URGENT') ? 'urgent' : 'normal'}">
-                            ${item.category}
-                        </span>
-                    </td>
-                    <td style="max-width: 300px; color: #475569;">${item.text}</td>
-                    <td>
-                        <button class="btn-resolve" onclick="resolveIssue(${index})">Resolve</button>
-                    </td>
-                </tr>
+            container.innerHTML = filteredList.map((item, index) => `
+                <div class="data-card">
+                    <div class="info">
+                        <span class="badge ${item.category.includes('URGENT') ? 'badge-urgent' : ''}">${item.category}</span>
+                        <h4>${item.name} <small style="color:#94a3b8; font-weight:400;">(${item.prn})</small></h4>
+                        <p><strong>Message:</strong> ${item.text}</p>
+                        <small style="color:#64748b;">Date: ${item.date}</small>
+                    </div>
+                    <div style="text-align: right;">
+                        <label style="display:block; font-size:11px; font-weight:700; margin-bottom:5px;">TRACK STATUS</label>
+                        <select class="status-select" onchange="updateStatus(${index}, this.value)">
+                            <option value="Pending" ${item.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="In Progress" ${item.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="Resolved" ${item.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                        </select>
+                        <button onclick="deleteRecord(${index})" style="margin-left:10px; background:none; border:none; color:var(--danger); cursor:pointer; font-weight:700;">Delete</button>
+                    </div>
+                </div>
             `).join('');
         }
 
-        function resolveIssue(index) {
-            if(confirm("Ya student chi issue solve jhali aahe ka? List madhun kadhayche?")) {
-                let list = JSON.parse(localStorage.getItem('grievances')) || [];
-                list.splice(index, 1);
+        function updateStatus(idx, newStatus) {
+            let list = JSON.parse(localStorage.getItem('grievances'));
+            list[idx].status = newStatus;
+            localStorage.setItem('grievances', JSON.stringify(list));
+            alert("Status updated to: " + newStatus);
+        }
+
+        function filterBy(cat, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadDashboard(cat);
+        }
+
+        function deleteRecord(idx) {
+            if(confirm("Are you sure?")) {
+                let list = JSON.parse(localStorage.getItem('grievances'));
+                list.splice(idx, 1);
                 localStorage.setItem('grievances', JSON.stringify(list));
-                loadAllData();
+                loadDashboard();
             }
         }
 
-        function filterTable() {
-            let input = document.getElementById("searchInput").value.toUpperCase();
-            let rows = document.getElementById("adminTableBody").getElementsByTagName("tr");
+        function logout() { sessionStorage.removeItem("adminAuthenticated"); window.location.href = "adminform.html"; }
 
-            for (let i = 0; i < rows.length; i++) {
-                let prnCell = rows[i].getElementsByTagName("td")[2];
-                if (prnCell) {
-                    let txtValue = prnCell.textContent || prnCell.innerText;
-                    rows[i].style.display = txtValue.toUpperCase().indexOf(input) > -1 ? "" : "none";
-                }
-            }
-        }
-
-        function logout() {
-            sessionStorage.removeItem("adminAuthenticated");
-            window.location.href = "adminform.html";
-        }
-
-        // Initialize
-        loadAllData();
+        loadDashboard();
     </script>
 </body>
 </html>
