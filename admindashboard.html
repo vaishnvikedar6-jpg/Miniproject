@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | SGMS</title>
+    <title>Admin Navigation | SGMS</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --princess-pink: #fbcfe8;
             --white: #ffffff;
-            --glass: rgba(255, 255, 255, 0.15);
+            --glass: rgba(255, 255, 255, 0.2);
         }
 
         * { box-sizing: border-box; transition: all 0.3s ease; }
@@ -17,11 +17,12 @@
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             margin: 0; 
-            /* Same gradient as your student form */
-            background: linear-gradient(135deg, rgba(76, 29, 149, 0.9), rgba(219, 39, 119, 0.8));
+            background: linear-gradient(135deg, rgba(76, 29, 149, 0.95), rgba(219, 39, 119, 0.9));
             background-attachment: fixed;
             color: var(--white);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
@@ -34,80 +35,54 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .main-layout { display: flex; flex-direction: column; padding: 30px; }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
+        .main-layout { 
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
         }
 
-        .stat-card {
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .welcome-text h1 { font-size: 32px; margin: 0; }
+        .welcome-text p { color: var(--princess-pink); font-weight: 600; }
+
+        /* Dept Selection Grid */
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .dept-card {
             background: var(--glass);
             backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-card h3 { font-size: 36px; margin: 0; color: var(--white); text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .stat-card p { font-size: 14px; font-weight: 700; margin-top: 5px; color: var(--princess-pink); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Issues Feed */
-        .feed-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
+            padding: 50px 30px;
             border-radius: 30px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .feed-title { font-size: 24px; font-weight: 800; margin-bottom: 25px; border-left: 5px solid var(--princess-pink); padding-left: 15px; }
-
-        .issue-item {
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 15px;
-            padding: 25px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .issue-content h4 { margin: 0 0 8px 0; font-size: 20px; color: var(--white); }
-        .issue-content p { margin: 0; font-size: 15px; opacity: 0.9; line-height: 1.6; }
-        
-        .badge {
-            background: var(--princess-pink);
-            color: #7c3aed;
-            padding: 5px 12px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-
-        /* Buttons */
-        .btn-update {
-            background: var(--white);
-            color: #7c3aed;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 15px;
-            font-weight: 800;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-update:hover { transform: translateY(-3px); background: var(--princess-pink); }
+        .dept-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: var(--princess-pink);
+        }
+
+        .dept-card h3 { font-size: 24px; margin: 15px 0 5px; }
+        .dept-card span { font-size: 40px; }
+        .dept-card p { font-size: 13px; opacity: 0.8; font-weight: 600; }
 
         .logout-btn {
             background: transparent;
@@ -119,91 +94,56 @@
             cursor: pointer;
         }
 
-        .logout-btn:hover { background: var(--white); color: #db2777; }
-
-        @media (max-width: 600px) {
-            .issue-item { flex-direction: column; align-items: flex-start; }
-            .btn-update { width: 100%; }
+        @media (max-width: 768px) {
+            .dept-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h2 style="margin:0; letter-spacing: -1px;">✨ SGMS Admin</h2>
+        <h2 style="margin:0;">✨ SGMS Admin Panel</h2>
         <button class="logout-btn" onclick="logout()">Logout</button>
     </header>
 
     <div class="main-layout">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3 id="stat-academic">0</h3>
-                <p>Academic</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="stat-infra">0</h3>
-                <p>Infrastructure</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="stat-clean">0</h3>
-                <p>Cleanliness</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="stat-urgent">0</h3>
-                <p>🚨 Bullying</p>
-            </div>
+        <div class="welcome-text">
+            <h1>Welcome, Admin</h1>
+            <p>Kontya department che problems check karayche aahet?</p>
         </div>
 
-        <div class="feed-container">
-            <div class="feed-title">Department Review Feed</div>
-            <div id="issueList">
-                </div>
+        <div class="dept-grid">
+            <a href="academic.html" class="dept-card">
+                <span>📚</span>
+                <h3>Academic</h3>
+                <p>Course, Exam & Faculty Issues</p>
+            </a>
+
+            <a href="infrastructure.html" class="dept-card">
+                <span>🏫</span>
+                <h3>Infrastructure</h3>
+                <p>Lab, Bench & Building Maintenance</p>
+            </a>
+
+            <a href="cleanliness.html" class="dept-card">
+                <span>🧹</span>
+                <h3>Cleanliness</h3>
+                <p>Campus & Washroom Hygiene</p>
+            </a>
+
+            <a href="bullying.html" class="dept-card">
+                <span>🚨</span>
+                <h3>Bullying</h3>
+                <p>Report Harassment & Urgent Cases</p>
+            </a>
         </div>
     </div>
 
     <script>
-        function loadDashboard() {
-            const list = JSON.parse(localStorage.getItem('grievances')) || [];
-            const container = document.getElementById('issueList');
-            
-            // Update Stats
-            document.getElementById('stat-academic').innerText = list.filter(i => i.category === 'Academic Help').length;
-            document.getElementById('stat-infra').innerText = list.filter(i => i.category === 'College Infrastructure').length;
-            document.getElementById('stat-clean').innerText = list.filter(i => i.category === 'Cleanliness').length;
-            document.getElementById('stat-urgent').innerText = list.filter(i => i.category.includes('URGENT')).length;
-
-            if(list.length === 0) {
-                container.innerHTML = "<p style='text-align:center; padding:40px; font-weight:600;'>No records found in the system.</p>";
-                return;
-            }
-
-            container.innerHTML = list.map((item, index) => `
-                <div class="issue-item">
-                    <div class="issue-content">
-                        <span class="badge">${item.category}</span>
-                        <h4>${item.name} <span style="font-weight:400; font-size:14px; opacity:0.7;">| PRN: ${item.prn}</span></h4>
-                        <p>${item.text}</p>
-                        <div style="margin-top:10px; font-size:13px; font-weight:700; color:var(--princess-pink);">
-                            Current Status: ${item.status}
-                        </div>
-                    </div>
-                    <button class="btn-update" onclick="updateStatus(${index})">Next Stage</button>
-                </div>
-            `).join('');
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = "adminform.html";
         }
-
-        function updateStatus(idx) {
-            let list = JSON.parse(localStorage.getItem('grievances'));
-            const flow = ["Pending", "In Progress", "Resolved"];
-            let curr = flow.indexOf(list[idx].status);
-            list[idx].status = flow[(curr + 1) % 3];
-            localStorage.setItem('grievances', JSON.stringify(list));
-            loadDashboard();
-        }
-
-        function logout() { sessionStorage.clear(); window.location.href = "adminform.html"; }
-
-        loadDashboard();
     </script>
 </body>
 </html>
