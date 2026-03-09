@@ -22,10 +22,7 @@
             justify-content: center; 
             align-items: center; 
             min-height: 100vh;
-            
-            /* Background: Human Support Image with Pink/Purple Gradient Overlay */
             background: linear-gradient(135deg, rgba(76, 29, 149, 0.7), rgba(219, 39, 119, 0.6));
-                        
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -234,6 +231,7 @@
                 date: new Date().toLocaleDateString()
             };
 
+            // Save to Local Storage
             let list = JSON.parse(localStorage.getItem('grievances')) || [];
             list.push(grievance);
             localStorage.setItem('grievances', JSON.stringify(list));
@@ -242,7 +240,8 @@
                 "We're with you. Your report is prioritized. Someone will reach out soon." : 
                 "Your grievance is recorded. We'll look into it soon.");
             
-            this.reset();
+            // Redirect to Student Dashboard
+            window.location.href = "dashboard.html";
         });
     </script>
 </body>
