@@ -3,302 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Support | Premium Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Student Support | We're Here For You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --princess-pink: #fbcfe8;
             --deep-purple: #4c1d95;
             --soft-purple: #a78bfa;
             --danger-red: #be123c;
-            --gold: #fbbf24;
+            --white: rgba(255, 255, 255, 0.9);
         }
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             margin: 0;
-            overflow: hidden;
+            padding: 20px;
             display: flex; 
             justify-content: center; 
             align-items: center; 
             min-height: 100vh;
-            background: linear-gradient(45deg, #4c1d95, #db2777, #7c3aed);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .background-blobs {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .blob {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            filter: blur(40px);
-            animation: move 20s infinite alternate;
-        }
-
-        @keyframes move {
-            from { transform: translate(0, 0); }
-            to { transform: translate(100px, 100px); }
+            background: linear-gradient(135deg, rgba(76, 29, 149, 0.7), rgba(219, 39, 119, 0.6));
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
-            padding: 20px;
-            z-index: 10;
+            max-width: 480px;
+            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .card { 
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             padding: 40px; 
-            border-radius: 40px; 
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            position: relative;
+            border-radius: 35px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
-        .progress-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .progress-step {
-            width: 35px;
-            height: 35px;
-            background: var(--princess-pink);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: var(--deep-purple);
-            font-size: 14px;
-            z-index: 2;
-            transition: 0.4s;
-        }
-
-        .progress-step.active {
-            background: var(--deep-purple);
-            color: white;
-            box-shadow: 0 0 15px rgba(76, 29, 149, 0.4);
-        }
-
-        .header h2 { 
+        .header { text-align: center; margin-bottom: 30px; }
+        
+        h2 { 
             margin: 0; 
-            font-size: 32px; 
+            font-size: 30px; 
             font-weight: 800; 
-            background: linear-gradient(to right, var(--deep-purple), #db2777);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
+            color: var(--deep-purple);
+            letter-spacing: -0.5px;
         }
 
-        .step-content { display: none; animation: fadeIn 0.5s ease; }
-        .step-content.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(10px); }
-            to { opacity: 1; transform: translateX(0); }
+        p.description {
+            color: #5b21b6;
+            font-size: 15px;
+            margin-top: 8px;
+            font-weight: 500;
+            opacity: 0.8;
         }
 
-        .form-group { margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
 
         label { 
             display: block; 
-            margin-bottom: 8px; 
-            font-weight: 700; 
+            margin-bottom: 6px; 
+            font-weight: 600; 
             font-size: 13px;
             color: var(--deep-purple);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin-left: 5px;
         }
 
         input, textarea, select { 
             width: 100%; 
-            padding: 16px 20px; 
-            border: 2px solid transparent; 
-            border-radius: 20px; 
+            padding: 14px 18px; 
+            border: 1px solid rgba(167, 139, 250, 0.3); 
+            border-radius: 18px; 
+            box-sizing: border-box; 
             font-size: 15px;
-            background: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
         }
 
-        input:focus { 
+        input:focus, textarea:focus, select:focus { 
             outline: none;
             border-color: var(--soft-purple);
-            background: white;
-            transform: scale(1.02);
+            box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.2);
+            background: #fff;
         }
 
         .bullying-section {
-            background: rgba(190, 18, 60, 0.05);
-            border-radius: 24px;
+            background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+            border: 1px solid rgba(190, 18, 60, 0.1);
             padding: 20px;
-            border: 2px dashed rgba(190, 18, 60, 0.2);
-            transition: 0.3s;
+            border-radius: 20px;
+            margin-bottom: 25px;
         }
 
-        .bullying-section.alert-active {
-            background: #fff1f2;
-            border-color: var(--danger-red);
-        }
-
-        .btn-group {
+        .checkbox-group {
             display: flex;
-            gap: 15px;
-            margin-top: 30px;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--danger-red);
+        }
+
+        .checkbox-label {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--danger-red);
         }
 
         .btn { 
-            flex: 1;
+            width: 100%; 
             background: linear-gradient(135deg, #7c3aed, #db2777); 
             color: white; 
             border: none; 
-            padding: 18px; 
-            border-radius: 22px; 
+            padding: 16px; 
+            border-radius: 18px; 
             cursor: pointer; 
             font-size: 16px; 
             font-weight: 700; 
-            transition: 0.3s;
-        }
-
-        .btn-secondary {
-            background: rgba(76, 29, 149, 0.1);
-            color: var(--deep-purple);
+            transition: all 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3);
         }
 
         .btn:hover { 
-            transform: translateY(-3px);
-            box-shadow: 0 20px 30px -10px rgba(124, 58, 237, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 20px -5px rgba(124, 58, 237, 0.4);
+            filter: brightness(1.1);
         }
 
-        textarea { height: 120px; }
+        .footer {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .admin-link { 
+            color: var(--deep-purple); 
+            text-decoration: none; 
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0.6;
+        }
+
+        .admin-link:hover { opacity: 1; text-decoration: underline; }
+
+        textarea { height: 90px; resize: none; }
     </style>
 </head>
 <body>
 
-    <div class="background-blobs">
-        <div class="blob" style="width: 400px; height: 400px; top: -100px; left: -100px;"></div>
-        <div class="blob" style="width: 300px; height: 300px; bottom: -50px; right: -50px; background: rgba(219, 39, 119, 0.2);"></div>
-    </div>
-
     <div class="container">
         <div class="card">
-            <div class="progress-container">
-                <div class="progress-step active" id="p1">1</div>
-                <div class="progress-step" id="p2">2</div>
-                <div class="progress-step" id="p3">3</div>
+            <div class="header">
+                <h2>Speak Your Heart.</h2>
+                <p class="description">We are here to support you, always.</p>
             </div>
 
             <form id="grievanceForm">
-                <div class="step-content active" id="step1">
-                    <div class="header" style="margin-bottom: 25px;">
-                        <h2>Identification</h2>
-                    </div>
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" id="name" placeholder="E.g. Vaishnavi Kedar" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Student ID (PRN)</label>
-                        <input type="text" id="prn" placeholder="124AXXXX" required>
-                    </div>
-                    <button type="button" class="btn" onclick="nextStep(2)">Continue</button>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name" required placeholder="Tell us who you are">
                 </div>
 
-                <div class="step-content" id="step2">
-                    <div class="header" style="margin-bottom: 25px;">
-                        <h2>Context</h2>
-                    </div>
-                    <div class="form-group">
-                        <label>Issue Category</label>
-                        <select id="category">
-                            <option>Academic Help</option>
-                            <option>College Infrastructure</option>
-                            <option>Wellbeing & Support</option>
-                        </select>
-                    </div>
-                    <div class="bullying-section" id="bSec">
-                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                            <input type="checkbox" id="isBullying" style="width: 20px; height: 20px;" onchange="toggleUrgency()">
-                            <span style="color: var(--danger-red); font-weight: 800;">Urgent: Harassment</span>
-                        </label>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-secondary" onclick="nextStep(1)">Back</button>
-                        <button type="button" class="btn" onclick="nextStep(3)">Details</button>
-                    </div>
+                <div class="form-group">
+                    <label>Student ID (PRN)</label>
+                    <input type="text" id="prn" required placeholder="Enter your PRN">
                 </div>
 
-                <div class="step-content" id="step3">
-                    <div class="header" style="margin-bottom: 25px;">
-                        <h2>The Details</h2>
-                    </div>
-                    <div class="form-group">
-                        <label>Message</label>
-                        <textarea id="complaint" placeholder="Describe your concern in detail..." required></textarea>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-secondary" onclick="nextStep(2)">Back</button>
-                        <button type="submit" class="btn">Submit Report</button>
-                    </div>
+                <div class="form-group">
+                    <label>What's the issue?</label>
+                    <select id="category">
+                        <option>Academic Help</option>
+                        <option>College Infrastructure</option>
+                        <option>Wellbeing & Support</option>
+                        <option>Other Concerns</option>
+                    </select>
                 </div>
+
+                <div class="bullying-section">
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="isBullying">
+                        <span class="checkbox-label">Reporting Harassment</span>
+                    </label>
+                    <p style="font-size: 12px; color: #9f1239; margin: 8px 0 0 32px; font-weight: 500;">
+                        This stays between us. The Dean will take care of it immediately.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label>Tell us everything</label>
+                    <textarea id="complaint" required placeholder="Don't hesitate to share details..."></textarea>
+                </div>
+
+                <button type="submit" class="btn">Submit for Support</button>
             </form>
+
+            <div class="footer">
+                <a href="adminform.html" class="admin-link">Staff Login Area</a>
+            </div>
         </div>
     </div>
 
     <script>
-        function nextStep(step) {
-            document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.progress-step').forEach(p => p.classList.remove('active'));
-            
-            document.getElementById('step' + step).classList.add('active');
-            for(let i=1; i<=step; i++) {
-                document.getElementById('p' + i).classList.add('active');
-            }
-        }
-
-        function toggleUrgency() {
-            const sec = document.getElementById('bSec');
-            sec.classList.toggle('alert-active');
-        }
-
         document.getElementById('grievanceForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const isBullying = document.getElementById('isBullying').checked;
             
-            const data = {
+            const isBullying = document.getElementById('isBullying').checked;
+            const grievance = {
                 id: Date.now(),
                 name: document.getElementById('name').value,
                 prn: document.getElementById('prn').value,
-                category: isBullying ? "🚨 PRIORITY" : document.getElementById('category').value,
+                category: isBullying ? "🚨 URGENT" : document.getElementById('category').value,
                 text: document.getElementById('complaint').value,
-                status: "Received",
+                status: "Pending",
                 date: new Date().toLocaleDateString()
             };
 
+            // Save to Local Storage
             let list = JSON.parse(localStorage.getItem('grievances')) || [];
-            list.push(data);
+            list.push(grievance);
             localStorage.setItem('grievances', JSON.stringify(list));
 
-            alert("Thank you. Your support ticket has been created.");
+            alert(isBullying ? 
+                "We're with you. Your report is prioritized. Someone will reach out soon." : 
+                "Your grievance is recorded. We'll look into it soon.");
+            
+            // Redirect to Student Dashboard
             window.location.href = "dashboard.html";
         });
     </script>
